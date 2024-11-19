@@ -3,7 +3,7 @@
 
 # Servidor WebSocket para Juego de Preguntas
 
-Este proyecto es un servidor WebSocket diseñado para un juego de preguntas en tiempo real. El backend está desarrollado en Python usando la librería websockets para la comunicación entre el servidor y los clientes conectados. Obtiene las preguntas del quiz desde una base de datos PostgreSQL y gestiona las respuestas y puntajes de los jugadores durante la partida.
+Este proyecto es un servidor WebSocket diseñado para un juego de preguntas en tiempo real. El backend está desarrollado en Python usando la librería websockets para la comunicación entre el servidor y los clientes conectados. Obtiene las preguntas del quiz desde una base de datos SQL SERVER y gestiona las respuestas y puntajes de los jugadores durante la partida.
 
 El frontend de este proyecto está construido con React y se conecta al servidor WebSocket para actualizaciones en tiempo real y la interacción del juego.
 
@@ -24,7 +24,7 @@ src/
 │   │   ├── formatquestion.py   # Gestiona el formato de las preguntas y la verificación de respuestas
 │   │   ├── randomid.py         # Maneja los IDs de las salas y jugadores
 │   └── db/
-│       ├── connection.py       # Configuración de la conexión a la base de datos PostgreSQL
+│       ├── connection.py       # Configuración de la conexión a la base de datos SQL SERVER
 │       └── queries.py          # Consultas para obtener las preguntas del quiz de la base de datos
 |       sockets/
 |       ├── __init__.py
@@ -36,7 +36,7 @@ src/
 ## Descripción del Servidor WebSocket
 
 El servidor WebSocket maneja lo siguiente:
-- Conexiones de jugadores (máximo de 2 por juego).
+- Conexiones de jugadores (Gestionado por la configuracion del proyecto QQI config).
 - Gestión de preguntas y respuestas durante el juego.
 - Cálculo de puntajes basado en las respuestas correctas.
 
@@ -45,7 +45,7 @@ El servidor WebSocket maneja lo siguiente:
 Este proyecto requiere las siguientes dependencias de Python:
 
 ```bash
-pip install websockets psycopg2
+pip install websockets pyodbc
 ```
 
 ### Lista de Paquetes Instalados:
@@ -61,10 +61,11 @@ itsdangerous    2.2.0
 Jinja2          3.1.4
 MarkupSafe      3.0.1
 pip             24.2
-postgres        4.0
 psycopg2        2.9.9
 psycopg2-binary 2.9.9
 psycopg2-pool   1.2
+pyodbc          5.2.0
+python-dotenv   1.0.1
 websockets      13.1
 Werkzeug        3.0.4
 ```

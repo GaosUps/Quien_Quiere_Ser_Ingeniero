@@ -1,8 +1,10 @@
-from app.db.queries import question
+from app.db.queries import question,questionsconfig
 # Función para formatear las preguntas desde la base de datos a JSON
 def format_questions():
+    #Obtener la configuracion desde la base de datos
+    numpreguntas, materia, nivel = questionsconfig()
     # Obtener las preguntas desde la base de datos
-    questions_from_db = question()  # Esto debería devolver una lista de tuplas, como [(1, '¿Cuando...', '1942', '1442', '1500', '1234', '1442')]
+    questions_from_db = question(numpreguntas,materia,nivel)  # Esto debería devolver una lista de tuplas, como [(1, '¿Cuando...', '1942', '1442', '1500', '1234', '1442')]
     # Crear una lista de preguntas en formato JSON
     formatted_questions = []
     

@@ -13,7 +13,7 @@ El servidor WebSocket está desarrollado en Python utilizando la biblioteca `web
 ### Arquitectura
 
 - **Backend (Servidor WebSocket):** Python + `websockets`.
-- **Base de Datos:** PostgreSQL.
+- **Base de Datos:** SQL SERVER.
 - **Frontend:** React (se conecta al servidor WebSocket).
 
 ---
@@ -57,7 +57,7 @@ El servidor WebSocket está desarrollado en Python utilizando la biblioteca `web
    **Flujo:**
    - Recibe el nombre del jugador y su ID.
    - Verifica que el ID sea correcto.
-   - Rechaza la conexión si ya hay 2 jugadores conectados.
+   - Rechaza la conexión si sobrepasa los jugadores conectados.
    - Inicia el juego cuando ambos jugadores están listos.
 
 ---

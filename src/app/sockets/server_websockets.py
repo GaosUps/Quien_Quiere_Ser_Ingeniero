@@ -1,9 +1,12 @@
 import asyncio
 import websockets
+from app.db.queries import playersconfig
 from app.controller.formatquestion import format_questions, checkanswer
 import json
 from app.controller.randomid import randomId, checkId
 
+
+num_jugadores=playersconfig()#numero de personas en el juego
 # Diccionario para almacenar los jugadores conectados y sus puntajes
 connected_players = {}
 player_responses = {}  # Almacena las respuestas de cada jugador para cada pregunta
@@ -25,8 +28,8 @@ async def handle_connection(websocket):
             return
 
         # Si hay más de 3 jugadores conectados, rechazar la conexión
-        if len(connected_players) >= 2:
-            await websocket.send("Maximo numero de jugadores son 3")
+        if len(connected_players) >= num_jugadores:
+            await websocket.send("Maximo numero de jugadores son ",num_jugadores)
             await websocket.close()
             print(f"Conexión cerrada con {name_player} porque hay más de 3 jugadores.")
             return
@@ -36,11 +39,11 @@ async def handle_connection(websocket):
         player_responses[websocket] = None
 
         # Si hay menos de 3 jugadores, esperar
-        if len(connected_players) < 2:
+        if len(connected_players) < num_jugadores:
             await websocket.send("Esperando a otro jugador")
 
         # Cuando hay 3 jugadores conectados, iniciar el juego
-        if len(connected_players) == 2:
+        if len(connected_players) == num_jugadores:
             for player in connected_players:
                 await player.send("Jugadores completos")
             await send_question_to_all()
@@ -152,4 +155,5 @@ async def start_websocket_server():
     server = await websockets.serve(handle_connection, "localhost", 8765)
     print("Servidor WebSocket corriendo en ws://localhost:8765")
     print(f"La id del juego es {room_id}")
+    print(f"Numero de jugadores por base es: {num_jugadores}")
     await server.wait_closed()
