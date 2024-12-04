@@ -20,7 +20,7 @@ def format_questions():
         }
         formatted_questions.append(formatted_question)
     
-    print(formatted_questions)
+    #print(formatted_questions)
     return formatted_questions
 
 # Función para verificar si la respuesta es correcta

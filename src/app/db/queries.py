@@ -70,8 +70,7 @@ def question(num_preguntas, materia, dificultad):
             # Ejecutar la consulta pasando los parámetros
             cursor.execute(query, (num_preguntas, materia, dificultad))
             results = cursor.fetchall()
-
-            print(results)
+            #print(results)
             return results
     except Exception as error:
         print(f"Error al ejecutar la consulta: {error}")

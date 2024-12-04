@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import pyodbc
-
 def connect_db():
     try:
         host = os.getenv('HOST')
@@ -23,4 +22,4 @@ def connect_db():
     except pyodbc.Error as e:
         print(f"Error de conexión a la base de datos: {e}")
         raise
-connect_db()
+#connect_db()
