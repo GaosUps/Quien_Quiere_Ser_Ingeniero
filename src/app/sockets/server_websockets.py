@@ -187,8 +187,8 @@ async def top_players():
 
 # Iniciar el servidor WebSocket
 async def start_websocket_server():
-    server = await websockets.serve(handle_connection, "localhost", 8765)
-    print("Servidor WebSocket corriendo en ws://localhost:8765")
+    server = await websockets.serve(handle_connection, "192.168.100.4", 8765)
+    print("Servidor WebSocket corriendo en ws://192.168.100.4:8765")
     print(f"La id del juego es {room_id}")
     print(f"Numero de jugadores por base es: {num_jugadores}")
     await server.wait_closed()
