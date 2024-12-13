@@ -22,9 +22,7 @@ export default function LoginPage({ setSocketConnection }) {
       socket.send(name); // Enviar el nombre del jugador al servidor
       socket.send(id); // Enviar el ID del jugador al servidor
       setSocketConnection(socket); // Guardar la conexión WebSocket en el estado o contexto
-      if (name === "gaosadmin" && id === "1234") {
-        navigate("/score");
-      }
+      
     };
 
     socket.onmessage = (event) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
 import QuestionLabel from '../components/QuestionLabel';
@@ -17,13 +17,49 @@ export default function QuizPage({ socketConnection }) {
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const navigate = useNavigate();
+   // Referencia del audio para evitar que se cree cada vez que se renderiza el componente
+   const audioRef = useRef(null);
+
+   // Cargar y preparar el audio una sola vez al montar el componente
+   useEffect(() => {
+     const audioPath = `${import.meta.env.BASE_URL}sonidotension.mp3`;
+     const audio = new Audio(audioPath);
+     audio.preload = 'auto'; 
+     
+     audio.onerror = (error) => {
+       console.error('Error al cargar el audio:', error, 'URL:', error?.target?.src);
+     };
+     
+     audioRef.current = audio;
+     
+     // Esperar la primera interacción del usuario para reproducir el audio
+     const playAudioOnUserInteraction = () => {
+       if (audioRef.current) {
+         audioRef.current.play().catch((error) => {
+           console.error('Error al reproducir el audio:', error);
+         });
+         // Remover el listener después de la primera interacción
+         document.body.removeEventListener('click', playAudioOnUserInteraction);
+       }
+     };
+ 
+     document.body.addEventListener('click', playAudioOnUserInteraction);
+     
+     return () => {
+       if (audioRef.current) {
+         audioRef.current.pause();
+         audioRef.current.src = ""; // Limpiar la referencia de audio
+       }
+       document.body.removeEventListener('click', playAudioOnUserInteraction);
+     };
+   }, []);
 
   useEffect(() => {
     if (!socketConnection) {
       console.error('No hay conexión WebSocket disponible');
       return;
     }
-
+    
     console.log('WebSocket conectado');
 
     const handleMessage = (event) => {

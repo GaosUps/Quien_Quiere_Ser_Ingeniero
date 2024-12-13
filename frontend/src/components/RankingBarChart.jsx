@@ -1,59 +1,44 @@
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import React from "react";
-const RankingBarChart = ({ data }) => {
-  const sortedData = [...data].sort(
-    (a, b) => b.animatedScore - a.animatedScore 
-  ).slice(0,3);
-  // Aplicar estilos y tamaños personalizados a los Top 3
-  const formattedData = sortedData.map((entry, index) => ({
-    ...entry,
-    fill:
-      index === 0
-        ? "#FFD700"
-        : index === 1
-        ? "#C0C0C0"
-        : index === 2
-        ? "#CD7F32"
-        : "#8884d8",
-    barSize: index === 0 ? 70 : 50, // El tamaño de la barra principal
-  }));
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart
-        data={formattedData}
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#ffffff33" />
-        <XAxis dataKey="name" stroke="#fff" />
+const RankingList = ({ data }) => {
+  const sortedData = [...data].sort((a, b) => b.animatedScore - a.animatedScore);
+  const getTrophyImage = (index) => {
+    switch (index) {
+      case 0:
+        return "/winner.png"; // Ruta de la imagen del trofeo de oro
+      case 1:
+        return "/silver.png"; // Ruta de la imagen del trofeo de plata
+      case 2:
+        return "/bronze.png"; // Ruta de la imagen del trofeo de bronce
+      default:
+        return "/medal.png"; // Ruta de la imagen de la medalla para los jugadores restantes
+    }
+  };
 
-        <Tooltip
-          contentStyle={{ backgroundColor: "#333", border: "none" }}
-          labelStyle={{ color: "#fff" }}
-        />
-        <Bar
-          dataKey="animatedScore"
-          fill="#8884d8"
-          label={{ position: "top", fill: "#fff" }}
-          animationDuration={1000}
+  return (
+    <div className="w-full max-w-4xl mx-auto p-4">
+      {sortedData.map((player, index) => (
+        <div 
+          key={player.name} 
+          className={`flex items-center justify-between bg-gray-900 text-white p-4 mb-4 rounded-lg shadow-lg ${
+            index < 3 ? "border-4 border-yellow-500" : "border border-gray-700"
+          }`}
         >
-          {formattedData.map((entry, index) => (
-            <rect
-              key={`bar-${index}`}
-              fill={entry.fill}
-              height={entry.barSize}
-              className={index === 0 ? 'animate-pulse' : ''}
+          <div className="flex items-center gap-4">
+            <img 
+              src={getTrophyImage(index)} 
+              alt={`Trofeo de ${index + 1}`} 
+              className="w-16 h-16 object-contain"
             />
-          ))}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+            <span className="text-xl font-bold">{player.name}</span>
+          </div>
+
+          <div className="flex items-center gap-28">
+          <span className="text-xl font-semibold">Puntaje: {player.animatedScore.toFixed(0)}</span>
+          <span className="text-xl font-semibold">Tiempo: {player.time.toFixed(5)}</span>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
-export default RankingBarChart;
+export default RankingList;
