@@ -15,7 +15,7 @@ export default function LoginPage({ setSocketConnection }) {
     e.preventDefault();
 
     // Conectar al WebSocket
-    const socket = new WebSocket("ws://192.168.137.13:8765");
+    const socket = new WebSocket("ws://169.254.167.119:8765");
 
     socket.onopen = () => {
       console.log("Conectado al WebSocket");
